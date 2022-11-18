@@ -32,6 +32,7 @@ cp /etc/current_node_ips /etc/old_node_ips
 echo "" > /etc/current_node_ips
 
 for IP in "${NEW_NODE_IPS[@]}"; do
+#  ufw allow from "$IP"
   ufw allow proto tcp from "$IP"
   ufw allow proto udp from "$IP"
   echo "$IP" >> /etc/current_node_ips
