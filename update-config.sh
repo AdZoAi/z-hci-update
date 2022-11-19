@@ -28,8 +28,10 @@ done
 ## agrego los Load Balancers si existen
 # NEW_NODE_IPS=( $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/servers' | jq -r '.servers[].public_net.ipv4.ip') )
 
-NEW_NODE_IPS= jq -s 'add' $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/servers' | jq -r '.servers[].public_net.ipv4.ip') 
-$(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/servers' | jq -r '.load_balancers[].public_net.ipv4.ip')
+NEW_NODE_1=( $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/servers' | jq -r '.servers[].public_net.ipv4.ip') )
+NEW_NODE_2=( $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/servers' | jq -r '.load_balancers[].public_net.ipv4.ip') )
+
+NEW_NODE_IPS= jq -s 'add' NEW_NODE_1 NEW_NODE_2
 
 touch /etc/current_node_ips
 cp /etc/current_node_ips /etc/old_node_ips
