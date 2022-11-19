@@ -39,7 +39,7 @@ for IP in "${NEW_NODE_IPS[@]}"; do
 done
 
 ##jb## Add Load Balancers IPS
-NEW_LB_IPS=( $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/servers' | jq -r '.load_balancers[].public_net.ipv4.ip') )
+NEW_LB_IPS=( $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/load_balancers' | jq -r '.load_balancers[].public_net.ipv4.ip') )
 
 for IP in "${NEW_LP_IPS[@]}"; do
 #  ufw allow from "$IP"
