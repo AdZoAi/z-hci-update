@@ -25,13 +25,7 @@ case $key in
 esac
 done
 
-## agrego los Load Balancers si existen
-# NEW_NODE_IPS=( $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/servers' | jq -r '.servers[].public_net.ipv4.ip') )
-
-NEW_NODE_1=( $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/servers' | jq -r '.servers[].public_net.ipv4.ip') )
-NEW_NODE_2=( $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/servers' | jq -r '.load_balancers[].public_net.ipv4.ip') )
-
-NEW_NODE_IPS= jq -s 'add' NEW_NODE_1 NEW_NODE_2
+NEW_NODE_IPS=( $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/servers' | jq -r '.servers[].public_net.ipv4.ip') )
 
 touch /etc/current_node_ips
 cp /etc/current_node_ips /etc/old_node_ips
@@ -43,6 +37,17 @@ for IP in "${NEW_NODE_IPS[@]}"; do
   ufw allow proto udp from "$IP"
   echo "$IP" >> /etc/current_node_ips
 done
+
+##jb## Add Load Balancers IPS
+NEW_LB_IPS=( $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/servers' | jq -r '.load_balancers[].public_net.ipv4.ip') )
+
+for IP in "${NEW_LP_IPS[@]}"; do
+#  ufw allow from "$IP"
+  ufw allow proto tcp from "$IP"
+  ufw allow proto udp from "$IP"
+  echo "$IP" >> /etc/current_node_ips
+done
+##jb## Add Load Balancers IPS
 
 IFS=$'\r\n' GLOBIGNORE='*' command eval 'OLD_NODE_IPS=($(cat /etc/old_node_ips))'
 
