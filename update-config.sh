@@ -36,6 +36,7 @@ for IP in "${NEW_NODE_IPS[@]}"; do
   ufw allow proto tcp from "$IP"
   ufw allow proto udp from "$IP"
   echo "$IP" >> /etc/current_node_ips
+  echo "$IP"
 done
 
 ##jb## Add Load Balancers IPS
@@ -46,6 +47,16 @@ for IP in "${NEW_LP_IPS[@]}"; do
   ufw allow proto tcp from "$IP"
   ufw allow proto udp from "$IP"
   echo "$IP" >> /etc/current_node_ips
+  echo "$IP"
+  echo "$IP"
+  echo "$IP"
+  echo "$IP"
+  echo "$IP"
+  echo "$IP"
+  echo "$IP"
+  echo "$IP"
+  echo "$IP"
+  echo "PASOOOO"
 done
 ##jb## Add Load Balancers IPS
 
