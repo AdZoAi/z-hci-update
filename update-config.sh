@@ -42,23 +42,13 @@ done
 ##jb## Add Load Balancers IPS
 #NEW_LB_IPS=( $(curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" 'https://api.hetzner.cloud/v1/load_balancers' | jq -r '.load_balancers[].public_net.ipv4.ip') )
 
-NEW_LB_IPS=( $(curl --location --request GET 'https://api.hetzner.cloud/v1/load_balancers' --header 'Authorization: Bearer ${TOKEN}' | jq -r '.load_balancers[].public_net.ipv4.ip') )
+NEW_LB_IPS=( $(curl --location --request charset=utf-8 GET 'https://api.hetzner.cloud/v1/load_balancers' --header 'Authorization: Bearer ${TOKEN}' | jq -r '.load_balancers[].public_net.ipv4.ip') )
 
 for IP in "${NEW_LP_IPS[@]}"; do
 #  ufw allow from "$IP"
   ufw allow proto tcp from "$IP"
   ufw allow proto udp from "$IP"
   echo "$IP" >> /etc/current_node_ips
-  echo "$IP"
-  echo "$IP"
-  echo "$IP"
-  echo "$IP"
-  echo "$IP"
-  echo "$IP"
-  echo "$IP"
-  echo "$IP"
-  echo "$IP"
-  echo "PASOOOO"
 done
 ##jb## Add Load Balancers IPS
 
